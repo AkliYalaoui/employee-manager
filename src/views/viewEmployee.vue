@@ -23,6 +23,7 @@
       </div>
     </dl>
     <router-link to="/">Go Back</router-link>
+    <router-link :to="{name:'Edit',params:{id:id}}">Update</router-link>
     <button @click="onDelete">Delete</button>
   </div>
 </template>
@@ -38,14 +39,15 @@ export default {
         name: "Akli",
         dept: 'AI',
         position : 'Leader'
-      }
+      },
+      id: null
     }
   },
   methods:{
     onDelete(){
       // if(confirm('Do You Really Want To Remove This Employee')){
       //   db.collection('employee')
-      //     .where('employee_id',"==",this.$route.params.id)
+      //     .where('employee_id',"==",this.id)
       //     .get()
       //     .then(
       //       querySnapshot =>{
@@ -60,8 +62,9 @@ export default {
     }
   },
   created(){
+    this.id = this.$route.params.id;
     // db.collection('employee')
-    //   .where('employee_id','==',this.$route.params.id)
+    //   .where('employee_id','==',this.id)
     //   .get()
     //   .then(
     //     querySnapshot =>{
@@ -111,11 +114,16 @@ export default {
   a{
         display: inline-block;
     color: #fff;
-    background-color: #777;
     padding: 1rem;
     text-decoration: none;
     margin-right: 1rem;
     font-size: 1.6rem;
+  }
+  a:first-of-type{
+    background-color: #777;
+  }
+  a:last-of-type{
+    background-color: var(--main-color);
   }
   button{
     display: inline-block;

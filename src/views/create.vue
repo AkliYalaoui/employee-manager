@@ -16,7 +16,7 @@
 </template>
 
 <script>
-// import db from '../components/firebaseInit'
+import db from '../components/firebaseInit'
 export default {
   name: 'Create',
   data(){
@@ -31,10 +31,13 @@ export default {
   },
   methods:{
     onSubmit(){
-      // db.collection('employee')
-      //   .add(this.employee)
-      //   .then(docRef =>this.$router.push('/'))
-      //   .catch(err => alert(err));
+      db.collection('employee')
+        .add(this.employee)
+        .then(docRef => {
+          this.$router.push('/');
+          console.log(docRef);
+          })
+        .catch(err => alert(err));
     }
   }
 }

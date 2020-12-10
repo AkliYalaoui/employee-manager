@@ -29,53 +29,53 @@
 </template>
 
 <script>
-// import db from '../components/firebaseInit'
+import db from '../components/firebaseInit'
 export default {
   name:"employee-view",
   data(){
     return{
       employee :{
-        employee_id : 1,
-        name: "Akli",
-        dept: 'AI',
-        position : 'Leader'
+        employee_id : null,
+        name: null,
+        dept: null,
+        position : null
       },
       id: null
     }
   },
   methods:{
     onDelete(){
-      // if(confirm('Do You Really Want To Remove This Employee')){
-      //   db.collection('employee')
-      //     .where('employee_id',"==",this.id)
-      //     .get()
-      //     .then(
-      //       querySnapshot =>{
-      //         querySnapshot.forEach(doc => {
-      //             doc.ref.delete();
-      //             this.$router.push('/');
-      //           }
-      //         )
-      //       }
-      //     );
-      // }
+      if(confirm('Do You Really Want To Remove This Employee')){
+        db.collection('employee')
+          .where('employee_id',"==",this.id)
+          .get()
+          .then(
+            querySnapshot =>{
+              querySnapshot.forEach(doc => {
+                  doc.ref.delete();
+                  this.$router.push('/');
+                }
+              )
+            }
+          );
+      }
     }
   },
   created(){
     this.id = this.$route.params.id;
-    // db.collection('employee')
-    //   .where('employee_id','==',this.id)
-    //   .get()
-    //   .then(
-    //     querySnapshot =>{
-    //       querySnapshot.forEach(doc => {
-    //         this.employee.employee_id = doc.data().employee_id;
-    //         this.employee.name = doc.data().name;
-    //         this.employee.dept = doc.data().dept;
-    //         this.employee.position = doc.data().position;
-    //       });  
-    //     }
-    //   );
+    db.collection('employee')
+      .where('employee_id','==',this.id)
+      .get()
+      .then(
+        querySnapshot =>{
+          querySnapshot.forEach(doc => {
+            this.employee.employee_id = doc.data().employee_id;
+            this.employee.name = doc.data().name;
+            this.employee.dept = doc.data().dept;
+            this.employee.position = doc.data().position;
+          });  
+        }
+      );
   }
 }
 </script>

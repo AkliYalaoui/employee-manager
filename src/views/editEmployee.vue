@@ -16,13 +16,13 @@
 </template>
 
 <script>
-// import db from '../components/firebaseInit'
+import db from '../components/firebaseInit'
 export default {
   name: 'Create',
   data(){
     return{
       employee :{
-        employee_id: 1,
+        employee_id: null,
         name: null,
         position: null,
         dept: null
@@ -31,38 +31,38 @@ export default {
   },
   methods:{
     onUpdate(){
-      // db.collection('employee')
-      //   .where('employee_id','==',this.$route.params.id)
-      //   .get()
-      //   .then(
-      //     querySnapshot =>{
-      //       querySnapshot.forEach(doc => {
-      //         doc.ref.update(this.employee)
-      //                 .then(()=> this.$router.push({
-      //                   name:'View',
-      //                   params:{
-      //                     id: this.employee.employee_id
-      //                   }
-      //                 }));
-      //       });  
-      //     }
-      //   );
+      db.collection('employee')
+        .where('employee_id','==',this.$route.params.id)
+        .get()
+        .then(
+          querySnapshot =>{
+            querySnapshot.forEach(doc => {
+              doc.ref.update(this.employee)
+                      .then(()=> this.$router.push({
+                        name:'View',
+                        params:{
+                          id: this.employee.employee_id
+                        }
+                      }));
+            });  
+          }
+        );
     }
   },
   created(){
-    // db.collection('employee')
-    //   .where('employee_id','==',this.$route.params.id)
-    //   .get()
-    //   .then(
-    //     querySnapshot =>{
-    //       querySnapshot.forEach(doc => {
-    //         this.employee.employee_id = doc.data().employee_id;
-    //         this.employee.name = doc.data().name;
-    //         this.employee.dept = doc.data().dept;
-    //         this.employee.position = doc.data().position;
-    //       });  
-    //     }
-    //   );
+    db.collection('employee')
+      .where('employee_id','==',this.$route.params.id)
+      .get()
+      .then(
+        querySnapshot =>{
+          querySnapshot.forEach(doc => {
+            this.employee.employee_id = doc.data().employee_id;
+            this.employee.name = doc.data().name;
+            this.employee.dept = doc.data().dept;
+            this.employee.position = doc.data().position;
+          });  
+        }
+      );
   }
 }
 </script>

@@ -27,31 +27,20 @@
 </template>
 
 <script>
-//import db from '../components/firebaseInit'
+import db from '../components/firebaseInit'
 export default {
   name: 'Home',
   data(){
     return{
-      employees:[{
-        employee_id : 1,
-        name: "Akli",
-        dept: 'AI',
-        position : 'Leader'
-      },
-      {
-        employee_id : 2,
-        name: "Kouki",
-        dept: 'Web Dev',
-        position : 'Project Manager'
-      }]
+      employees:[]
     }
   },
   created(){
-    // db.collection("employee").get().then((querySnapshot) => {
-    //   querySnapshot.forEach((doc) => {
-    //     this.employees.unshift(doc.data());
-    //   })
-    // });
+    db.collection("employee").get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        this.employees.unshift(doc.data());
+      })
+    });
   }
 }
 </script>

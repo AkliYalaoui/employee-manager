@@ -4,23 +4,44 @@
       <nav>
         <div class="nav-controls">
           <button @click="menu = !menu">
-              <span v-if="menu">&#10060;</span>
+              <span v-if="menu">&times;</span>
               <span v-else>&#8594;</span>
           </button>
         </div>
-        <div class="nav-brand" v-if="menu">Employee Manager</div>
+        <div class="nav-brand" v-if="menu">
+          <span v-if="!isAuth">Employee Manager</span>
+          <span v-else>{{ user }}</span>
+        </div>
         <ul>
-          <li>
+          <li v-if="!isAuth">
+            <router-link to="/login">
+              <span v-if="menu">Login</span>
+              <span v-else title="Login">L</span>
+            </router-link>
+          </li>
+          <li v-if="!isAuth">
+            <router-link to="/register">
+              <span v-if="menu">Register</span>
+              <span v-else title="Register">R</span>
+            </router-link>
+          </li>
+          <li v-if="isAuth">
             <router-link to="/">
-              <span v-if="menu">Home</span>
+              <span v-if="menu">Dashboard</span>
               <span v-else>&#127968;</span>
             </router-link>
           </li>
-          <li>
+          <li v-if="isAuth">
             <router-link to="/employee/create">
               <span v-if="menu">New Employee</span>
               <span v-else>+</span>
             </router-link>
+          </li>
+          <li v-if="isAuth">
+            <button @click="logout">
+              <span v-if="menu">Logout</span>
+              <span v-else>&#128075;</span>
+            </button>
           </li>
           <li>
             <router-link to="/about">
@@ -38,11 +59,25 @@
 </template>
 
 <script>
+import firebase from 'firebase'
 export default {
   name:"nav-bar",
   data(){
     return{
-      menu:false
+      menu:false,
+      isAuth : false,
+      user : false
+    }
+  },
+  created(){
+    if(firebase.auth().currentUser){
+      this.isAuth = true;
+      this.user = firebase.auth().currentUser.email
+    }
+  },
+  methods:{
+    logout(){
+      firebase.auth().signOut().then(()=> this.$router.push('/login'));
     }
   } 
 }
@@ -89,6 +124,7 @@ aside.closed{
   font-size: 3rem;
   margin-top: 3rem;
   margin-bottom: 3rem;
+  padding: .8rem;
 }
 ul{
   list-style: none;
@@ -97,7 +133,7 @@ ul{
 li{
   margin-bottom: 1rem;
 }
-a{
+li button ,a{
   text-decoration: none;
   color: inherit;
   display: inline-block;
@@ -105,8 +141,12 @@ a{
   padding: 1rem 2rem;
   opacity: .8;
   background-color: var(--hover-color,#333);
+  cursor: pointer;
+  border: none;
+  outline: none;
+  font-size: 1.8rem;
 }
-a:hover{
+li button,a:hover{
   opacity: 1
 }
 </style>

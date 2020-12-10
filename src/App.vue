@@ -1,5 +1,5 @@
 <template>
-  <navBar></navBar>
+  <navBar :key="$route.fullPath"></navBar>
 </template>
 
 <script>

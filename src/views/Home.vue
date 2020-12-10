@@ -1,29 +1,31 @@
 <template>
   <Spinner v-if="loading"></Spinner>
-  <div class="table-container" v-else>
-    <table>
-      <caption><h1>Employees Table</h1></caption>
-      <thead>
-        <tr>
-          <th>Id</th>
-          <th>Name</th>
-          <th>Departement</th>
-          <th>Position</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="employee in employees" :key="employee.employee_id">
-          <td>{{employee.employee_id}}</td>
-          <td>{{employee.name}}</td>
-          <td>{{employee.dept}}</td>
-          <td>{{employee.position}}</td>
-          <td>
-            <router-link :to="{name:'View',params:{id:employee.employee_id}}">explore</router-link>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div  v-else>
+    <h1>Employees Table</h1>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Departement</th>
+            <th>Position</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="employee in employees" :key="employee.employee_id">
+            <td>{{employee.employee_id}}</td>
+            <td>{{employee.name}}</td>
+            <td>{{employee.dept}}</td>
+            <td>{{employee.position}}</td>
+            <td>
+              <router-link :to="{name:'View',params:{id:employee.employee_id}}">explore</router-link>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -59,6 +61,13 @@ export default {
 </script>
 
 <style scoped>
+
+h1{
+  font-weight: bold;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
 .table-container{
   margin-top: 5rem;
   overflow-x: auto;
@@ -70,10 +79,6 @@ table{
   max-width: 900px;
   margin-right: auto;
   margin-left: auto;
-}
-caption{
-  font-weight: bold;
-  margin-bottom: 2rem;
 }
 thead{
   background-color: var(--main-color);

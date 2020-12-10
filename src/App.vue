@@ -24,7 +24,12 @@ export default {
   box-sizing: border-box;
 }
 html{
-  font-size: 62.5%;
+  font-size: 10px;
+}
+@media screen and (max-width: 500px){
+  html{
+    font-size: 7px;
+  }
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

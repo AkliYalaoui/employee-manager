@@ -55,7 +55,7 @@ export default {
   methods:{
     fetchData(){
       db.collection('employee')
-        .where('employee_id','==',this.$route.params.id)
+        .where('employee_id','==',this.$route.params.id ?? this.employee.employee_id)
         .get()
         .then(querySnapshot=>{
           querySnapshot.forEach(doc =>{
@@ -74,15 +74,11 @@ export default {
     onDelete(){
       if(confirm('Do You Really Want To Remove This Employee')){
         db.collection('employee')
-          .where('employee_id',"==",this.id)
+          .where('employee_id',"==",this.employee.employee_id)
           .get()
           .then(
             querySnapshot =>{
-              querySnapshot.forEach(doc => {
-                  doc.ref.delete();
-                  this.$router.push('/');
-                }
-              )
+              querySnapshot.forEach(doc => doc.ref.delete().then(()=> this.$router.push('/')));
             }
           );
       }

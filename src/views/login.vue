@@ -32,6 +32,7 @@ export default {
         this.loading = true;
         firebase.auth().signInWithEmailAndPassword(this.email,this.password)
                 .then(user =>{
+                  console.log(user);
                   this.loading = false;
                   this.$router.push('/');
                 })

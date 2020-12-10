@@ -32,18 +32,22 @@ export default {
   methods:{
     onUpdate(){
       db.collection('employee')
-        .where('employee_id','==',this.$route.params.id)
+        .where('__name__','==',this.$route.params.id)
         .get()
         .then(
           querySnapshot =>{
             querySnapshot.forEach(doc => {
-              doc.ref.update(this.employee)
-                      .then(()=> this.$router.push({
-                        name:'View',
-                        params:{
-                          id: this.employee.employee_id
-                        }
-                      }));
+              doc.ref.update({
+                name:this.employee.name,
+                position:this.employee.position,
+                dept:this.employee.dept
+              })
+                .then(()=> this.$router.push({
+                  name:'View',
+                  params:{
+                    id: this.employee.employee_id
+                  }
+                }));
             });  
           }
         );
@@ -51,12 +55,12 @@ export default {
   },
   created(){
     db.collection('employee')
-      .where('employee_id','==',this.$route.params.id)
+      .where('__name__','==',this.$route.params.id)
       .get()
       .then(
         querySnapshot =>{
           querySnapshot.forEach(doc => {
-            this.employee.employee_id = doc.data().employee_id;
+            this.employee.employee_id = doc.id;
             this.employee.name = doc.data().name;
             this.employee.dept = doc.data().dept;
             this.employee.position = doc.data().position;

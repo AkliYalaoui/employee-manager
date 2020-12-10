@@ -55,11 +55,11 @@ export default {
   methods:{
     fetchData(){
       db.collection('employee')
-        .where('employee_id','==',this.$route.params.id ?? this.employee.employee_id)
+        .where('__name__','==',this.$route.params.id ?? this.employee.employee_id)
         .get()
         .then(querySnapshot=>{
           querySnapshot.forEach(doc =>{
-            this.employee.employee_id = doc.data().employee_id;
+            this.employee.employee_id = doc.id ;
             this.employee.name = doc.data().name;
             this.employee.dept = doc.data().dept;
             this.employee.position = doc.data().position;
@@ -74,7 +74,7 @@ export default {
     onDelete(){
       if(confirm('Do You Really Want To Remove This Employee')){
         db.collection('employee')
-          .where('employee_id',"==",this.employee.employee_id)
+          .where('__name__',"==",this.employee.employee_id)
           .get()
           .then(
             querySnapshot =>{

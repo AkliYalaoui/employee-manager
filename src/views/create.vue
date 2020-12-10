@@ -2,8 +2,6 @@
   <div class="create-container">
     <h1>Add A New Employee</h1>
     <form @submit.prevent="onSubmit">
-      <label for="id">Employee Id :</label>
-      <input type="text" name="id" id="id" v-model="employee.employee_id" required autofocus>
       <label for="name">Name :</label>
       <input type="text" name="name" id="name" v-model="employee.name" required>
       <label for="pos">Position :</label>
@@ -22,7 +20,6 @@ export default {
   data(){
     return{
       employee :{
-        employee_id: null,
         name: null,
         position: null,
         dept: null

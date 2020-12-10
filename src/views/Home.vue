@@ -45,7 +45,12 @@ export default {
   created(){
     db.collection("employee").get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        this.employees.unshift(doc.data());
+        this.employees.unshift({
+          employee_id:doc.id,
+          name:doc.data().name,
+          dept:doc.data().dept,
+          position:doc.data().position,
+        });
       });
       this.loading = false;
     });

@@ -1,5 +1,6 @@
 <template>
-  <div class="view-container">
+  <Spinner v-if="loading"></Spinner>
+  <div class="view-container" v-else>
     <h1>View Employee</h1>
     <dl class="employee-info">
       <div class="desc-grp">
@@ -30,8 +31,13 @@
 
 <script>
 import db from '../components/firebaseInit'
+import Spinner from '../components/spinner'
+
 export default {
   name:"employee-view",
+  components:{
+    Spinner
+  },
   data(){
     return{
       employee :{
@@ -40,7 +46,8 @@ export default {
         dept: null,
         position : null
       },
-      id: null
+      id: null,
+      loading: true
     }
   },
   methods:{
@@ -73,7 +80,8 @@ export default {
             this.employee.name = doc.data().name;
             this.employee.dept = doc.data().dept;
             this.employee.position = doc.data().position;
-          });  
+          });
+          this.loading = false;  
         }
       );
   }

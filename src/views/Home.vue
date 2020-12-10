@@ -1,5 +1,6 @@
 <template>
-  <div class="table-container">
+  <Spinner v-if="loading"></Spinner>
+  <div class="table-container" v-else>
     <table>
       <caption><h1>Employees Table</h1></caption>
       <thead>
@@ -28,18 +29,25 @@
 
 <script>
 import db from '../components/firebaseInit'
+import Spinner from '../components/spinner'
+
 export default {
   name: 'Home',
+  components:{
+    Spinner
+  },
   data(){
     return{
-      employees:[]
+      employees:[],
+      loading: true
     }
   },
   created(){
     db.collection("employee").get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         this.employees.unshift(doc.data());
-      })
+      });
+      this.loading = false;
     });
   }
 }

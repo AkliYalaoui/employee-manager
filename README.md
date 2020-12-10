@@ -1,4 +1,4 @@
-# vue-cli-tpl
+# employee-manager
 
 ## Project setup
 ```

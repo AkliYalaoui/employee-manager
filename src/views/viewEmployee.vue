@@ -24,7 +24,7 @@
       </div>
     </dl>
     <router-link to="/">Go Back</router-link>
-    <router-link :to="{name:'Edit',params:{id:id}}">Update</router-link>
+    <router-link :to="{name:'Edit',params:{id:employee.employee_id}}">Update</router-link>
     <button @click="onDelete">Delete</button>
   </div>
 </template>
@@ -43,14 +43,34 @@ export default {
       employee :{
         employee_id : null,
         name: null,
-        dept: null,
-        position : null
+        position : null,
+        dept:null
       },
-      id: null,
       loading: true
     }
   },
+  watch:{
+    "$route" : 'fetchData'
+  },
   methods:{
+    fetchData(){
+      db.collection('employee')
+        .where('employee_id','==',this.$route.params.id)
+        .get()
+        .then(querySnapshot=>{
+          querySnapshot.forEach(doc =>{
+            this.employee.employee_id = doc.data().employee_id;
+            this.employee.name = doc.data().name;
+            this.employee.dept = doc.data().dept;
+            this.employee.position = doc.data().position;
+          });
+        })
+        .catch(err=>{
+          console.log(err);
+          this.$router.push('/');
+        })
+        .finally(()=>this.loading = false);
+    },
     onDelete(){
       if(confirm('Do You Really Want To Remove This Employee')){
         db.collection('employee')
@@ -69,21 +89,7 @@ export default {
     }
   },
   created(){
-    this.id = this.$route.params.id;
-    db.collection('employee')
-      .where('employee_id','==',this.id)
-      .get()
-      .then(
-        querySnapshot =>{
-          querySnapshot.forEach(doc => {
-            this.employee.employee_id = doc.data().employee_id;
-            this.employee.name = doc.data().name;
-            this.employee.dept = doc.data().dept;
-            this.employee.position = doc.data().position;
-          });
-          this.loading = false;  
-        }
-      );
+    this.fetchData();
   }
 }
 </script>
